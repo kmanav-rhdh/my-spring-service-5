@@ -4,11 +4,13 @@ WORKDIR /app
 
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-RUN ./mvnw dependency:resolve
+RUN chmod +x mvnw && ./mvnw dependency:resolve
 
 COPY src ./src
+
+RUN ./mvnw package -DskipTests
 
 ENV PORT 8080
 EXPOSE 8080
 
-CMD ["./mvnw", "spring-boot:run"]
+CMD ["java", "-jar", "target/spring-boot-app-0.0.1-SNAPSHOT.jar"]
